@@ -18,11 +18,7 @@ func getHelloWorld(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-func restApi() {
+func Handler() {
 	http.Handle("/hello", http.HandlerFunc(getHelloWorld))
 	log.Fatal(http.ListenAndServe(":8080", nil))
-}
-
-func Handler() {
-	restApi()
 }
