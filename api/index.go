@@ -1,10 +1,28 @@
 package handler
- 
+
 import (
-  "fmt"
-  "net/http"
+	"encoding/json"
+	"log"
+	"net/http"
 )
- 
-func Handler(w http.ResponseWriter, r *http.Request) {
-  fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
+
+type response struct {
+	Response string `json:"response"`
+}
+
+func getHelloWorld(w http.ResponseWriter, r *http.Request) {
+	var response = response{
+		Response: "Hello World",
+	}
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(response)
+}
+
+func restApi() {
+	http.Handle("/hello", http.HandlerFunc(getHelloWorld))
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+
+func Handler() {
+	restApi()
 }
